@@ -35,13 +35,13 @@
       };
       homeModules = nix-config.homeModules;
       systemModules = nix-config.systemModules;
-      homeConfig = nix-config.homeModules;
+      homeConfig = nix-config.homeConfig;
       nixModule = systemModules.nix inputs;
     in
     {
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
       homeManagerConfigurations = lib.createHomeManagerConfigs personalPackageSet {
-        "jmoore@new_hostname" = {
+        "jmoore@hst" = {
           userConfig = homeConfig {
             pkgs = personalPackageSet;
             additionalModules = [ homeModules.xmonad ];
@@ -50,10 +50,10 @@
         };
       };
       nixosConfigurations = lib.createNixosSystems personalPackageSet {
-        new_hostname = {
+        hst = {
           hardwareConfig = {
             imports = [
-              ./hardware-configs/new_hostname.nix
+              ./hardware-configs/hst.nix
               nixModule
               systemModules.network
               systemModules.openssh
